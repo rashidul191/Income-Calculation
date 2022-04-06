@@ -30,11 +30,19 @@ document.getElementById("calculate").addEventListener("click", function(){
 function getInputValue(inputId) {
   const amountInput = document.getElementById(inputId);
   const totalAmountInput = parseFloat(amountInput.value);
-  return totalAmountInput;
+  if (totalAmountInput >= 0) {
+    // document.getElementById("error-massages").style.display = "none";
+    return totalAmountInput;
+  } else {
+    document.getElementById("error-massages").innerText =
+      "Error!!! Please enter a current amount";
+    return 0;
+  }
 }
 
 function updateAmount() {
-  const totalExpenses = getInputValue("food") + getInputValue("rent") + getInputValue("others");
+  const totalExpenses =
+    getInputValue("food") + getInputValue("rent") + getInputValue("others");
   const balance = getInputValue("income") - totalExpenses;
 
   // set total expenses amount
@@ -45,5 +53,5 @@ function updateAmount() {
 
 // calculate btn event handle
 document.getElementById("calculate").addEventListener("click", function () {
-    updateAmount()
+  updateAmount();
 });
