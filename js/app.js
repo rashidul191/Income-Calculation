@@ -28,15 +28,31 @@ document.getElementById("calculate").addEventListener("click", function(){
 
 // get Inputs Value Income and Expenses
 function getInputValue(inputId) {
+ 
   const amountInput = document.getElementById(inputId);
-  const totalAmountInput = parseFloat(amountInput.value);
 
-  if (totalAmountInput >= 0) {
+  // console.log(typeof (amountInput.value));
+  const totalAmountInput = parseFloat(amountInput.value);
+  // console.log(typeof (totalAmountInput));
+  if(isNaN(amountInput.value)){
+    // document.getElementById("error-massages").innerText =
+    //   "Error string!!! Please enter a amount";
+console.log("input is string")
+    return amountInput.value;
+  }
+
+  // if(typeof (amountInput.value) == "string"){
+  //   // document.getElementById("error-massages").innerText =
+  //   //   "Sorry, dear !!! You don't have enough money. Please do the short expense.";
+  //     return amountInput.value;
+  // }
+
+ if (totalAmountInput > 0) {
     // document.getElementById("error-massages").style.display = "none";
     return totalAmountInput;
   } else {
     document.getElementById("error-massages").innerText =
-      "Error!!! Please enter a amount";
+      "Error!!! Please enter a correct amount";
     // alert("Error!!! Please enter a correct amount")
     return 0;
   }
@@ -48,23 +64,37 @@ function updateAmount() {
   // const rent = getInputValue("rent");
   // const clOther = getInputValue("others");
   // const totalExpenses = food + rent + clOther;
+  const income = getInputValue("income");
+
+  // console.log(typeof(income));
   const totalExpenses =
     getInputValue("food") + getInputValue("rent") + getInputValue("others");
 
-  const income = getInputValue("income");
   const balance = income - totalExpenses;
+
+  // if(isNaN(income) || isNaN(totalExpenses)){
+  //   document.getElementById("error-massages").innerText =
+  //     "Sorry, dear !!! You enter amount not a number. Please try again.";
+  // }
   
-  if (income > totalExpenses) {
+   if (income > totalExpenses) {
     // set total expenses amount
     document.getElementById("expenses-balance").innerText = totalExpenses;
     // set balance amount
     document.getElementById("balance-amount").innerText = balance;
     document.getElementById("error-massages").style.display = "none";
 
-  } else {
+  }
+  else if(typeof(income) == "string" || typeof(totalExpenses) == "string"){
+    document.getElementById("error-massages").innerText = "error string!!! .";
+  }
+  
+  else {
     // alert(
     //   "Sorry, dear !!! You don't have enough money. Please do the short expense."
     // );
+
+    
     document.getElementById("error-massages").innerText =
       "Sorry, dear !!! You don't have enough money. Please do the short expense.";
   }
@@ -72,20 +102,23 @@ function updateAmount() {
 }
 
 function calculationAmount(){
-  const saveMoneyNumber = getInputValue("save-money");
+  const saveMoney = document.getElementById("save-money");
+  const saveMoneyNumber = parseFloat(saveMoney.value);
+  // const saveMoneyNumber = getInputValue("save-money");
   const income = getInputValue("income");
-  const saveTotalMoney = (saveMoneyNumber / 100) * income;
+  const saveTotalMoney = (saveMoneyNumber / 100) * income;  
   const totalBalance = updateAmount();
   const totalRemainingBalance = totalBalance - saveTotalMoney;
   const remainingBalance = document.getElementById("remaining-balance");
   const savingAmount = document.getElementById("saving-amount");
 
-  if (totalBalance > saveTotalMoney) {
+  if (totalBalance >= saveTotalMoney) {
     remainingBalance.innerText = totalRemainingBalance;
     savingAmount.innerText = saveTotalMoney;
   } else {
     remainingBalance.innerText = 0;
     savingAmount.innerText = 0;
+    saveMoney.value = '';
     alert("Sorry, dear !!! You don't have enough income money.");
   }
 
@@ -99,21 +132,5 @@ document.getElementById("calculate").addEventListener("click", function () {
 
 // save btn event handle
 document.getElementById("save").addEventListener("click", function () {
-  // const saveMoneyNumber = getInputValue("save-money");
-  // const income = getInputValue("income");
-  // const saveTotalMoney = (saveMoneyNumber / 100) * income;
-  // const totalBalance = updateAmount();
-  // const totalRemainingBalance = totalBalance - saveTotalMoney;
   calculationAmount()
-
-  // const remainingBalance = document.getElementById("remaining-balance");
-  // const savingAmount = document.getElementById("saving-amount");  
-  // if (totalBalance > saveTotalMoney) {
-  //   remainingBalance.innerText = totalRemainingBalance;
-  //   savingAmount.innerText = saveTotalMoney;
-  // } else {
-  //   remainingBalance.innerText = 0;
-  //   savingAmount.innerText = 0;
-  //   alert("Sorry, dear !!! You don't have enough income money.");
-  // }
 });
