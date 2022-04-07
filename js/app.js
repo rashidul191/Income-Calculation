@@ -1,4 +1,3 @@
-
 // get Inputs Value Income and Expenses
 function getInputValue(inputId) {
   const amountInput = document.getElementById(inputId);
@@ -25,7 +24,7 @@ function updateAmount() {
   const errorMassages = document.getElementById("error-massages");
   if (income < 0 || food < 0 || rent < 0 || others < 0) {
     errorMassages.innerText =
-      "Error negative amount!!! Please enter a positive amount.";
+      "Error negative amount!!! Please enter a positive amount. Try aging";
   } else if (typeof income == "string" || typeof totalExpenses == "string") {
     errorMassages.innerText = "Error!! string / empty input.";
   } else if (income.toString() == "" || totalExpenses.toString() == "") {
@@ -47,19 +46,27 @@ function calculationAmount() {
   const saveMoney = document.getElementById("save-money");
   const saveMoneyNumber = parseFloat(saveMoney.value);
   const income = getInputValue("income");
-  const saveTotalMoney = (saveMoneyNumber / 100) * income;
-  const totalBalance = updateAmount();
-  const totalRemainingBalance = totalBalance - saveTotalMoney;
-  const remainingBalance = document.getElementById("remaining-balance");
-  const savingAmount = document.getElementById("saving-amount");
-  if (totalBalance >= saveTotalMoney) {
-    remainingBalance.innerText = totalRemainingBalance;
-    savingAmount.innerText = saveTotalMoney;
+  const errorMassages = document.getElementById("error-massages");
+  if (saveMoneyNumber > 0) {
+    const saveTotalMoney = (saveMoneyNumber / 100) * income;
+    const totalBalance = updateAmount();
+    const totalRemainingBalance = totalBalance - saveTotalMoney;
+    const remainingBalance = document.getElementById("remaining-balance");
+    const savingAmount = document.getElementById("saving-amount");
+    if (totalBalance >= saveTotalMoney) {
+      remainingBalance.innerText = totalRemainingBalance;
+      savingAmount.innerText = saveTotalMoney;
+    } else {
+      remainingBalance.innerText = 0;
+      savingAmount.innerText = 0;
+      saveMoney.value = "";
+      errorMassages.innerText =
+        "Sorry, dear !!! You don't have enough income money.";
+    }
   } else {
-    remainingBalance.innerText = 0;
-    savingAmount.innerText = 0;
+    errorMassages.innerText =
+      "Error negative amount!!! Please enter a positive amount. Try aging";
     saveMoney.value = "";
-    alert("Sorry, dear !!! You don't have enough income money.");
   }
 }
 // calculate btn event handle
