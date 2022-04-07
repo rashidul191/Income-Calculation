@@ -47,6 +47,15 @@ function calculationAmount() {
   const saveMoneyNumber = parseFloat(saveMoney.value);
   const income = getInputValue("income");
   const errorMassages = document.getElementById("error-massages");
+
+
+   
+  
+
+  // if (isNaN(saveMoney.value) || saveMoney.value == "") {
+  //   errorMassages.innerText = "Error!! string / empty input.";
+  // }
+
   if (saveMoneyNumber > 0) {
     const saveTotalMoney = (saveMoneyNumber / 100) * income;
     const totalBalance = updateAmount();
@@ -63,11 +72,16 @@ function calculationAmount() {
       errorMassages.innerText =
         "Sorry, dear !!! You don't have enough income money.";
     }
-  } else {
+  }   
+  else if(saveMoneyNumber < 0) {
     errorMassages.innerText =
       "Error negative amount!!! Please enter a positive amount. Try aging";
     saveMoney.value = "";
   }
+
+  else if (typeof (saveMoney.value) == "string") {
+    errorMassages.innerText = "Error!! string / empty input.";
+  }  
 }
 // calculate btn event handle
 document.getElementById("calculate").addEventListener("click", function () {
